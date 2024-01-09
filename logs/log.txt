@@ -1,0 +1,49 @@
+2023-08-22 01:24:29 - Kullanıcı giriş yaptı.
+2023-08-22 01:25:05 - denemedir
+2023-08-22 01:25:17 - denemedirasdasd
+2023-08-22 01:25:20 - denemedirasdasd
+2023-08-22 01:25:57 - Kullanıcı giriş yaptı.
+2023-08-22 01:25:57 - denemedirasdasd
+2023-08-27 00:55:29 - Kullanıcı giriş yaptı.
+2023-08-27 00:55:29 - denemedirasdasd
+2023-08-27 00:55:48 - Kullanıcı giriş yaptı.
+2023-08-27 00:55:48 - denemedirasdasd
+2023-08-27 00:55:50 - Kullanıcı giriş yaptı.
+2023-08-27 00:55:50 - denemedirasdasd
+2023-08-27 00:55:51 - Kullanıcı giriş yaptı.
+2023-08-27 00:55:51 - denemedirasdasd
+2023-08-27 00:56:00 - Kullanıcı giriş yaptı.
+2023-08-27 00:56:00 - denemedirasdasd
+::1
+::1
+::1
+::1
+::1
+::1
+2023-09-24 14:59:18 - Masalar için kategori eklendi. Kategori İsmi
+2023-09-24 15:00:16 - Masalar için kategori eklendi. Kategori İsmi
+2023-09-24 15:02:58 - Masalar için kategori eklendi. Kategori İsmi
+2023-09-24 15:04:55 - Masalar için kategori silme işlemi başladı. Kategori Id : 4
+ İşlemi yapan kullanıcı : mcan2023-09-24 15:12:00 - Masalar için kategori silme işlemi başladı. Kategori Id : 5 İşlemi yapan kullanıcı : mcan
+2023-09-24 15:12:16 - Masalar için kategori silme işlemi başladı. Kategori Id : 11 İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:43 - Masalar için kategori silindi. Kategori Id : 22 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:46 - Masalar için kategori silindi. Kategori Id : 21 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:48 - Masalar için kategori silindi. Kategori Id : 20 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:50 - Masalar için kategori silindi. Kategori Id : 19 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:56 - Masalar için kategori silindi. Kategori Id : 18 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:48:58 - Masalar için kategori silindi. Kategori Id : 17 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:49:00 - Masalar için kategori silindi. Kategori Id : 16 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:49:02 - Masalar için kategori silindi. Kategori Id : 15 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:49:07 - Masalar için kategori silindi. Kategori Id : 12 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:49:12 - Masalar için kategori silindi. Kategori Id : 13 - İşlemi yapan kullanıcı : mcan
+2023-09-28 00:49:18 - Masalar için kategori silindi. Kategori Id : 14 - İşlemi yapan kullanıcı : mcan
+2023-10-08 18:49:05 - Masa silerken hata oluştu.Masa Id :  - İşlemi yapan kullanıcı : mcan
+2023-10-08 18:49:09 - Masa silerken hata oluştu.Masa Id :  - İşlemi yapan kullanıcı : mcan
+2023-10-08 18:49:25 - Masa silerken hata oluştu.Masa Id :  - İşlemi yapan kullanıcı : mcan
+2023-10-08 18:49:28 - Masa silerken hata oluştu.Masa Id :  - İşlemi yapan kullanıcı : mcan
+2023-10-08 18:50:00 - Masa silindi. Masa Id : 2 - İşlemi yapan kullanıcı : mcan
+2023-10-14 20:56:43 - Masa silindi. Masa Id : 3 - İşlemi yapan kullanıcı : mcan
+2023-11-01 23:44:41 - Masa silindi. Masa Id : 12 - İşlemi yapan kullanıcı : mcan
+2023-11-01 23:44:49 - Masalar için kategori silindi. Kategori Id : 10 - İşlemi yapan kullanıcı : mcan
+2023-11-01 23:45:22 - Masalar için kategori silindi. Kategori Id : 6 - İşlemi yapan kullanıcı : mcan
+2023-11-01 23:51:38 - Masalar için kategori silindi. Kategori Id : 23 - İşlemi yapan kullanıcı : mcan
