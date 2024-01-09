@@ -1,0 +1,10 @@
+ER_FF11 Login hatası
+
+
+
+-front tarafından düzeltilcekler
+
+
+
+- düzeltme ekranlaronda çarpı ile kapanmıyor.
+- dile göre tab degistririeken duruma göre resim degisecek .

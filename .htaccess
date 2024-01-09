@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /qrmenu/
+
+# .php uzantısını silip, dizine erişildiğinde ilgili PHP sayfasına yönlendir
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)/?$ $1.php [L]
