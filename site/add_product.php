@@ -28,7 +28,11 @@ $allCategory=AllProductCategory();
                                         </ul>
                                         <!-- Tab panes -->
                                        <?php 
-                                       /*  Windows denemesi */
+                                       /*  Windows denemesi
+                                            bunu da macosdan gönderiyorum
+
+
+                                        */
 
                                         ?>
                                         <div class="tab-content pt-1">
