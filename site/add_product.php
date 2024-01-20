@@ -27,6 +27,10 @@ $allCategory=AllProductCategory();
                                             </li>
                                         </ul>
                                         <!-- Tab panes -->
+                                       <?php 
+                                       /*  Windows denemesi */
+
+                                        ?>
                                         <div class="tab-content pt-1">
                                             <div class="tab-pane" id="common-fill" role="tabpanel" aria-labelledby="common-tab-fill">
                                                 <div class="card-content">
