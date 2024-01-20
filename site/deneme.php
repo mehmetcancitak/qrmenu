@@ -18,7 +18,9 @@ include('../panel/important/security.php');
     <link rel="apple-touch-icon" href="<?php echo apath; ?>template/app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo apath; ?>template/app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="<?php echo apath; ?>template/assets/toastr/toastr2.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo apath; ?>template/assets/custom.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo apath; ?>template/assets/toastr/toastr.css">
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="<?php echo apath; ?>template/app-assets/vendors/css/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo apath; ?>template/app-assets/vendors/css/tables/datatable/datatables.min.css">
@@ -639,8 +641,8 @@ include('../panel/important/security.php');
                                         <td class="product-category">Fitness</td>
                                        
                                         <td class="product-price"><?php echo $value['p_price']; ?></td>
-                                        <td class="product-price"><?php echo $value['p_discount']; ?></td>
-                                        <td class="product-price"><?php echo $value['p_percentage']; ?></td>
+                                        <td class="product-discount"><?php echo $value['p_discount']; ?></td>
+                                        <td class="product-percentage"><?php echo $value['p_percentage']; ?></td>
                                         <td class="product-action">
                                             <span class="action-edit" id="<?php echo $value['p_id']; ?>"><i class="feather icon-edit" onclick="SetEditId(<?php echo $value['p_id']; ?>)"></i></span>
                                             <span class="action-delete"><i class="feather icon-trash"></i></span>
@@ -659,99 +661,118 @@ include('../panel/important/security.php');
                     ?>
                     <!-- DataTable ends -->
                     <!-- add new sidebar starts -->
-                    <div class="add-new-data-sidebar">
-                        <div class="overlay-bg"></div>
-                        <div class="add-new-data">
-                            <section id="nav-filled">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="card overflow-hidden">
-                                            <div class="card-content">
-                                                <div class="card-body">
-                                                    <!-- Nav tabs -->
+                    <form  id="product-update-form">
+                        <input type="hidden" name="ajax" value="true">
+                        <input type="hidden" name="build" value="EditProduct">
+                        <input type="hidden" name="p_id" id="product-id">
+                        <input type="hidden" name="category-id-default" value="" id="category-id-default">
+                        <input type="hidden" name="c_id" value="0" id="product-category-id">
+                        <div class="add-new-data-sidebar">
+                            <div class="overlay-bg"></div>
+                            <div class="add-new-data">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="card overflow-hidden">
+                                                <div class="card-content">
+                                                    <div class="card-body">
+                                                        <!-- Nav tabs -->
 
-                                                    <ul class="nav nav-tabs nav-fill"  style="z-index: 123123;" id="myTab" role="tablist">
+                                                        <ul class="nav nav-tabs nav-fill"  style="z-index: 123123;" id="myTab" role="tablist">
+                                                            <?php 
+                                                            $i=1;
+                                                            foreach ($AllLanguage as $value) 
+                                                            {
+                                                                $active=($i==1) ? ' active' : '';
+                                                                ?>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link<?php echo $active; ?>" id="<?php echo $value['lang']; ?>-tab-fill" data-toggle="tab" href="#<?php echo $value['lang']; ?>-fill" role="tab" aria-controls="<?php echo $value['lang']; ?>-fill" aria-selected="true"><?php echo $value['lang_name']; ?></a>
+                                                                </li>
+                                                                <?php 
+                                                                $i++;
+                                                            }
+                                                             ?>
+                                                        </ul>
+                                                        <!-- Tab panes -->
+                                                        <div class="tab-content pt-1">
+                                                            <?php 
+                                                            $i=1;
+                                                            foreach ($AllLanguage as $value) 
+                                                            {
+                                                                $active=($i==1) ? ' active' : '';
 
-                                                        <li class="nav-item">
-                                                            <a class="nav-link active" id="tr-tab-fill" data-toggle="tab" href="#tr-fill" role="tab" aria-controls="tr-fill" aria-selected="true">Türkçe</a>
-                                                        </li>
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" id="en-tab-fill" data-toggle="tab" href="#en-fill" role="tab" aria-controls="en-fill" aria-selected="false">İngilizce</a>
-                                                        </li>
-                                                    </ul>
-                                                    <!-- Tab panes -->
-                                                    <div class="tab-content pt-1">
-                                                        <?php 
-                                                        $i=1;
-                                                        foreach ($AllLanguage as $value) 
-                                                        {
-                                                            $active=($i==1) ? ' active' : '';
-
-                                                            ?>
-                                                            <div class="tab-pane<?php echo $active; ?>" id="<?php echo $value['lang']; ?>-fill" role="tabpanel" aria-labelledby="<?php echo $value['lang']; ?>-tab-fill">
-                                                                <div class="add-new-data">
-                                                                
-                                                                <div class="data-items pb-3">
-                                                                    <div class="data-fields px-2 mt-3">
-                                                                        <div class="row">
-                                                                            <div class="col-sm-12 data-field-col">
-                                                                                <label for="data-name">İsim</label>
-                                                                                <input type="text" class="form-control" id="data-name">
-                                                                            </div>
-                                                                            <div class="col-sm-12 data-field-col" id="product-option">
-                                                                                <label for="data-category"> Kategorisi </label>
-                                                                                <select class="form-control" id="data-category">
-                                                                                    <option>Audio</option>
-                                                                                    <option>Computers</option>
-                                                                                    <option>Fitness</option>
-                                                                                    <option>Appliance</option>
-                                                                                </select>
-                                                                            </div>
-                                                                           
-                                                                            <div class="col-sm-12 data-field-col">
-                                                                                <label for="data-price">Fiyat</label>
-                                                                                <input type="text" class="form-control" id="data-price">
-                                                                            </div>
-                                                                            <div class="col-sm-12 data-field-col">
-                                                                                <label for="data-price">İndirimli Fiyat</label>
-                                                                                <input type="text" class="form-control" id="data-discount">
-                                                                            </div>
-                                                                            <div class="col-sm-12 data-field-col">
-                                                                                <label for="data-price">Aktif</label>
-                                                                                <input type="text" class="form-control" id="data-active">
-                                                                            </div>
-                                                                            <div class="col-sm-12 data-field-col data-list-upload">
-                                                                                <form action="#" class="dropzone dropzone-area" id="dataListUpload">
-                                                                                    <div class="dz-message">Upload Image</div>
-                                                                                </form>
+                                                                ?>
+                                                                <div class="tab-pane<?php echo $active; ?>" id="<?php echo $value['lang']; ?>-fill" role="tabpanel" aria-labelledby="<?php echo $value['lang']; ?>-tab-fill">
+                                                                    <div class="add-new-data">
+                                                                    <div class="data-items pb-3">
+                                                                        <div class="data-fields px-2 mt-3">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12 data-field-col">
+                                                                                    <label for="data-name">Aktif</label>
+                                                                                    <div class="col-md-8">
+                                                                                        <div class="vs-checkbox-con vs-checkbox-primary">
+                                                                                            <input id="data-active" type="checkbox"  name="p_active_<?php echo $value['lang']
+                                                                                 ?>">
+                                                                                            <span class="vs-checkbox">
+                                                                                                <span class="vs-checkbox--check">
+                                                                                                    <i class="vs-icon feather icon-check"></i>
+                                                                                                </span>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-sm-12 data-field-col">
+                                                                                    <label for="data-name">İsim</label>
+                                                                                    <input type="text" name="p_name_<?php echo $value['lang']
+                                                                                 ?>" class="form-control" id="data-name">
+                                                                                </div>
+                                                                                <div class="col-sm-12 data-field-col" id="product-option">
+                                                                                    <label for="data-category"> Kategorisi </label>
+                                                                                    <select class="form-control" name="p_category_<?php echo $value['lang']
+                                                                                 ?>" id="data-category">
+                                                                                        <option>Audio</option>
+                                                                                        <option>Computers</option>
+                                                                                        <option>Fitness</option>
+                                                                                        <option>Appliance</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                               
+                                                                                <div class="col-sm-12 data-field-col">
+                                                                                    <label for="data-price">Fiyat</label>
+                                                                                    <input type="text" class="form-control" name="p_price_<?php echo $value['lang']
+                                                                                 ?>" id="data-price">
+                                                                                </div>
+                                                                                <div class="col-sm-12 data-field-col">
+                                                                                    <label for="data-discount">İndirimli Fiyat</label>
+                                                                                    <input type="text" name="p_discount_<?php echo $value['lang']
+                                                                                 ?>" class="form-control" id="data-discount">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
-                                                                    <div class="add-data-btn">
-                                                                        <button class="btn btn-primary">Add Data</button>
+                                                                    <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
+                                                                        <div class="add-data-btn">
+                                                                            <button class="btn btn-primary" onclick="ProductUpdate();">Güncelle</button>
+                                                                        </div>
+                                                                        <div class="cancel-data-btn">
+                                                                            <button class="btn btn-outline-danger">Cancel</button>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="cancel-data-btn">
-                                                                        <button class="btn btn-outline-danger">Cancel</button>
-                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            </div>
-                                                            <?php 
-                                                            $i++;
-                                                        }
-                                                        ?>
-                                                        
+                                                                </div>
+                                                                <?php 
+                                                                $i++;
+                                                            }
+                                                            ?>
+                                                            
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <!-- add new sidebar ends -->
                 </section>
                 <!-- Data list view end -->
@@ -760,7 +781,31 @@ include('../panel/important/security.php');
         </div>
     </div>
     <!-- END: Content-->
+    <script>
+        function ProductUpdate()
+        {
+            event.preventDefault(); 
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: '<?php echo apath; ?>' +'panel/important/ajax.php',
+                data: $("#product-update-form").serialize(),
+                success: function(data) {
+                    var resMessageData = jQuery.parseJSON(data['responseMessage']);
+                    autoSystemMessage(resMessageData);
 
+                }
+            });
+        }
+
+        function changeEditId()
+        {
+            var selectBox = document.getElementById("data-category");
+            var selectedOption = selectBox.options[selectBox.selectedIndex];
+            var selectedValue = selectedOption.value;
+            document.getElementById("product-category-id").value = selectedValue;
+        }
+    </script>
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
@@ -771,7 +816,6 @@ include('../panel/important/security.php');
         </p>
     </footer>
     <!-- END: Footer-->
-
 
     <!-- BEGIN: Vendor JS-->
     <script src="<?php echo apath; ?>template/app-assets/vendors/js/vendors.min.js"></script>
@@ -787,6 +831,9 @@ include('../panel/important/security.php');
     <script src="<?php echo apath; ?>template/app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
     <!-- END: Page Vendor JS-->
 
+    <script src="<?php echo apath; ?>template/assets/toastr/toastr.min.js"></script>
+    <script src="<?php echo apath; ?>template/assets/toastr/toastr.js"></script>
+
     <!-- BEGIN: Theme JS-->
     <script src="<?php echo apath; ?>template/app-assets/js/core/app-menu.js"></script>
     <script src="<?php echo apath; ?>template/app-assets/js/core/app.js"></script>
@@ -796,7 +843,76 @@ include('../panel/important/security.php');
     <!-- BEGIN: Page JS-->
     <script src="<?php echo apath; ?>template/app-assets/js/scripts/ui/data-list-view.js"></script>
     <!-- END: Page JS-->
+    <script>
+        function autoSystemMessage(data='')
+        {
+            if(data!=''){
+                for (let i = 0; i < data.length; i++) {
+                    switch (data[i]){
 
+                        case 'UPDATE_1': 
+                        toastr.success("Güncelleme Başarılı Şekilde Kaydedildi.");
+                        break;
+
+                        case 'UPDATE_ERROR': 
+                        toastr.warning("Güncelleme yapılırken hata alındı.");
+                        break;
+
+                        case 'OLD_PASSWORD_NOT_MATCH':
+                        toastr.warning("Eski Şifre Hatalı.");
+                        break;
+
+
+                        case 'AT_LEAST_EIGHT_CHARACTERS':
+                        toastr.info("Şifre 8 Karakterden Küçük Olamaz.");
+                        break;
+
+                        case 'PASSWORDS_DO_NOT_MATCH':
+                        toastr.warning("Şifreler Eşleşmiyor.");
+                        break;
+
+                        case 'PREVIOUSLY_USERNAME_TAKEN':
+                        toastr.warning("Kullanıcı Adı Daha Önceden Alınmış");
+                        break;
+
+                        case 'PREVIOUSLY_MAIL_TAKEN':
+                        toastr.warning("Mail Daha Önceden Alınmış");
+                        break;
+
+                        case 'US_ID_NUMBER_IN':
+                        toastr.warning("Kullanıcı adı tanımlara uymamaktadır.Lütfen tekrar kontrol ediniz.");
+                        break;
+
+                        //Success , insert , başarılı
+                        case 'SUCCESSFULLY_ADDED':
+                        toastr.success("Başarılı şekilde eklendi.");
+                        break;
+
+                        case 'EMAIL_INVALID':
+                        toastr.warning("Mail kurallara uymamaktadır.");
+                        break;
+
+                        case 'NOT_NULL':
+                        toastr.warning("* İle İşaretli Alanların Doldurulması Zorunludur.");
+                        break;
+
+                        case 'SYSTEM_ERROR':
+                        toastr.warning("Sistem Hatası.Site Sahibi ile iletişime geçiniz.");
+                        break;
+
+                        case 'DELETE_ERROR':
+                        toastr.warning("Silerken Hata Oluştu");
+
+                        case 'DELETE_SUCCESS':
+                        toastr.success("Silme işlemi başarılı şekilde tamamlandı.");
+
+                        default: 
+                        console.log("Bilinmeyen Hata.");
+                    }   
+                }
+            }
+        }
+    </script>
 </body>
 <!-- END: Body-->
 

@@ -115,6 +115,8 @@ $(document).ready(function() {
     new PerfectScrollbar(".data-items", { wheelPropagation: false })
   }
 
+
+  //MCCCCCCCCC - arayabilirsin-burda ürün özelliklerinin parse edildigi yer.
   // Close sidebar
   $(".hide-data-sidebar, .cancel-data-btn, .overlay-bg").on("click", function() {
     $(".add-new-data").removeClass("show")
@@ -122,6 +124,7 @@ $(document).ready(function() {
     $("#data-name, #data-price").val("")
     $("#data-category, #data-status").prop("selectedIndex", 0)
   })
+
 
   // On Edit
   $('.action-edit').on("click",function(e){
@@ -135,9 +138,15 @@ $(document).ready(function() {
         success: function(data) {
           GetProductOption(productId);
           $('#data-name').val(data.response[0]['p_name']);
-          $('#data-price').val('$99');
-          $(".add-new-data").addClass("show");
-          $(".overlay-bg").addClass("show");
+          $('#data-price').val(data.response[0]['p_price']);
+          $('#data-discount').val(data.response[0]['p_discount']);
+          $('#product-id').val(data.response[0]['p_id']);
+          $('#category-id-default').val(data.response[0]['p_category']);
+
+          if(data.response[0]['p_active']==1)
+          {
+            $('#data-active').prop('checked', true);
+          }
           // console.log(data.response[0]['p_name']);
          
         }
@@ -146,7 +155,7 @@ $(document).ready(function() {
     
 
     $('#data-name').val('Altec Lansing - Bluetooth Speaasdasdasdker');
-    $('#data-price').val('$99');
+    $('#data-price').val('$91231231239');
     $(".add-new-data").addClass("show");
     $(".overlay-bg").addClass("show");
   });

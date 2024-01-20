@@ -15,6 +15,13 @@ $pageCount=AllProduct();
               <option value="z-a">Z - A ya sıralama</option>
             </select>
         </div>
+        <div class="col-md-3  mb-2">
+            <select class="form-select form-control"  name="sort_by_price" onchange="ChangeSortByPrice(this.value);">
+              <option selected>Fiyata Göre Sırala</option>
+              <option value="max">Önce En yüksek</option>
+              <option value="min">Önce En Düşük</option>
+            </select>
+        </div>
          <div class="col-md-3 mb-2">
             <input type="text" id="search-input" id="search" class="form-control mb-3" placeholder="İsim Ara" oninput="AjaxSearch()">
         </div>
@@ -31,6 +38,7 @@ $pageCount=AllProduct();
         <input type="hidden" name="restart" value="GetAllProduct">
         <input type="hidden" name="search_key" id="hidden-search" value="">
         <input type="hidden" name="sort_by_name" id="hidden-search" value="">
+        <input type="hidden" name="sort_by_price" id="hidden-search" value="">
         <input type="hidden" name="sort_by_table_count" id="hidden-search" value="">
     </form>
     
@@ -114,21 +122,23 @@ $pageCount=AllProduct();
 
     function ClearFilter()
     {
+
         $('input[name="page"]').val(1);
         $('input[name="count_data"]').val(<?php echo count($pageCount); ?>);
         $('input[name="size"]').val(6);
         $('input[name="search_key"]').val('');
         $('input[name="sort_by_name"]').val('');
-        $('input[name="sort_by_table_count"]').val('');
+        $('input[name="sort_by_price"]').val('');
         document.getElementById("search-input").value = "";
         document.querySelector('select[name="sort_by_name"]').selectedIndex=0;
-        document.querySelector('select[name="sort_by_table_count"]').selectedIndex=0;
-        setTimeout(GetProductCategoryList, 10);
+        document.querySelector('select[name="sort_by_price"]').selectedIndex=0;
+        setTimeout(GetAllProduct, 10);
         setTimeout(ChangePagePagination, 10);
 
     }
     function AjaxSearch() 
     {
+
         var searchInput = document.getElementById("search-input");
         var hiddenInput = document.getElementById("hidden-search");
         var countDataValue = document.getElementById("count_data").value;
@@ -140,7 +150,7 @@ $pageCount=AllProduct();
 
         if (searchInput.value.length > characterLimit) {
             hiddenInput.value = searchInput.value;
-            GetProductCategoryList();
+            GetAllProduct();
 
         } else {
             if (searchInput.value.length === 0) {
@@ -170,9 +180,14 @@ $pageCount=AllProduct();
     
     function ChangeSortByName(selectedValue) 
     {
-
         $('input[name="sort_by_name"]').val(selectedValue);
-        setTimeout(GetProductCategoryList, 25);
+        setTimeout(GetAllProduct, 25);
+
+    }
+    function ChangeSortByPrice(selectedValue) 
+    {
+        $('input[name="sort_by_price"]').val(selectedValue);
+        setTimeout(GetAllProduct, 25);
 
     }
     function ChangeSortByTableCount(selectedValue) 
@@ -227,13 +242,14 @@ $pageCount=AllProduct();
         var size = $('input[name="size"]').val();
         var search_key = $('input[name="search_key"]').val();
         var sort_by_name = $('input[name="sort_by_name"]').val();
+        var sort_by_price = $('input[name="sort_by_price"]').val();
         var sort_by_table_count = $('input[name="sort_by_table_count"]').val();
-
+        console.log(search_key);
         $.ajax({
             type: "POST",
             dataType: 'json',
             url: '<?php echo apath; ?>' +'panel/important/ajax.php',
-            data: 'ajax=true&build=GetAllProduct&page='+pageValue+'&count_data='+countDataValue+'&size='+size+'&search_key='+search_key+'&sort_by_name='+sort_by_name + '&sort_by_table_count=' + sort_by_table_count,
+            data: 'ajax=true&build=GetAllProduct&page='+pageValue+'&count_data='+countDataValue+'&size='+size+'&search_key='+search_key+'&sort_by_name='+sort_by_name + '&sort_by_table_count=' + sort_by_table_count+'&sort_by_price=' + sort_by_price,
             success: function(data) {
                 var resMessageData = jQuery.parseJSON(data['responseMessage']);
                 $("#all-category").html(data['response']);

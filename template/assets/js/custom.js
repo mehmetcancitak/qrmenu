@@ -3,6 +3,7 @@ function autoSystemMessage(data='')
     if(data!=''){
         for (let i = 0; i < data.length; i++) {
             switch (data[i]){
+
                 case 'UPDATE_1': 
                 toastr.success("Güncelleme Başarılı Şekilde Kaydedildi.");
                 break;

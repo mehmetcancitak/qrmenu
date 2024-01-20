@@ -415,11 +415,12 @@ if($ajax=="true" && $build2==''){
                 </td>
             </tr>';
 
-           $return['script'] = '<script>
+           $return['script'] = '
+           <script>
                 $(\'.action-edit\').on("click", function(e) {
                     e.stopPropagation();
                     $(\'#data-name\').val(\'Altec Lansing - Bluetooth Speaker\');
-                    $(\'#data-price\').val(\'$99\');
+                    $(\'#data-price\').val(\'$9119\');
                     $(".add-new-data").addClass("show");
                     $(".overlay-bg").addClass("show");
                 });
@@ -812,8 +813,8 @@ if($ajax=="true" && $build2==''){
            $return['script'] = '<script>
                 $(\'.action-edit\').on("click", function(e) {
                     e.stopPropagation();
-                    $(\'#data-name\').val(\'Altec Lansing - Bluetooth Speaker\');
-                    $(\'#data-price\').val(\'$99\');
+                    $(\'#data-name\').val(\'Altec Lansing - Bluasdasdasdasdasetooth Speaker\');
+                    $(\'#data-price\').val(\'$123123123123123\');
                     $(".add-new-data").addClass("show");
                     $(".overlay-bg").addClass("show");
                 });
@@ -922,7 +923,7 @@ if($ajax=="true" && $build2==''){
         ];
 
         $controlLanguage='tr';
-        $emptyCheckList=array('p_name','p_price');
+        $emptyCheckList=array('p_name_tr','p_price');
         $language=[
             'tr',
             'en'
@@ -945,11 +946,11 @@ if($ajax=="true" && $build2==''){
             if(array_search('NOT_NULL', $responseMessage)===false)
             {
                 $p_name = filter($_POST["p_name_$lang"]);
-                $p_category = !empty($_POST["p_category_id_$lang"]) ? filter($_POST["p_category_id_$lang"]) : 0;
-                $p_price = !empty($_POST["p_price_$lang"]) ? filter($_POST["p_price_$lang"]) : 0;
-                $p_discount = filter($_POST["p_discount_$lang"]);
-                $p_discount = !empty($_POST["p_discount_$lang"]) ? filter($_POST["p_discount_$lang"]) : 0;
-                $p_active = !empty($_POST["p_active_$lang"]) ? filter($_POST["p_active_$lang"]) : 0;
+                $p_category = !empty($_POST["p_category_id"]) ? filter($_POST["p_category_id"]) : 0;
+                $p_price = !empty($_POST["p_price"]) ? filter($_POST["p_price"]) : 0;
+                $p_discount = filter($_POST["p_discount"]);
+                $p_discount = !empty($_POST["p_discount"]) ? filter($_POST["p_discount"]) : 0;
+                $p_active = !empty($_POST["p_active"]) ? filter($_POST["p_active"]) : 0;
 
                 $p_active= ($p_active=='on') ? '1' : 0;
 
@@ -1003,7 +1004,7 @@ if($ajax=="true" && $build2==''){
         $ProductCategory=AllProductCategory();
         $return['response'].='
         <label for="data-category"> Kategorisi </label>
-        <select class="form-control" id="data-category">
+        <select class="form-control" id="data-category" onchange="changeEditId();">
         <option value="">-- Seçiniz-- </option>';
         foreach ($ProductCategory as $category) 
         {
@@ -1033,14 +1034,24 @@ if($ajax=="true" && $build2==''){
         $size=filter($_POST['size']);
         $search_key=filter($_POST['search_key']);
         $sort_by_name=filter($_POST['sort_by_name']);
+        $sort_by_price=filter($_POST['sort_by_price']);
         $sort_by_table_count=$_POST['sort_by_table_count'];
         @$sort_by_table_category=$_POST['sort_by_table_category'];
 
         $return['dataCount']=$count_data;
         if($sort_by_name!='')
         {
-            if($sort_by_name=='a-z') array_push($orderByArray, 't_name ASC');
-            if($sort_by_name=='z-a') array_push($orderByArray, 't_name DESC');
+            if($sort_by_name=='a-z') array_push($orderByArray, 'p_name ASC');
+            if($sort_by_name=='z-a') array_push($orderByArray, 'p_name DESC');
+        }
+
+        //büyükten kücüğe desc
+
+
+        if($sort_by_price!='')
+        {
+            if($sort_by_price=='max') array_push($orderByArray, 'p_price DESC');
+            if($sort_by_price=='min') array_push($orderByArray, 'p_price ASC');
         }
         if($sort_by_table_count!='')
         {
@@ -1102,7 +1113,7 @@ if($ajax=="true" && $build2==''){
 
         if (!empty($search_key) || !empty($sort_by_table_category) ) 
         {
-            if($search_key!='') array_push($whereArray,'t_name LIKE :searchKey');
+            if($search_key!='') array_push($whereArray,'p_name LIKE :searchKey');
             $addWhere=AddWhere($whereArray);
 
             $queryCount=$db->prepare("SELECT * FROM $tableName $addWhere ");
@@ -1119,7 +1130,7 @@ if($ajax=="true" && $build2==''){
                 $queryCount->bindValue(':p_category', $sort_by_table_category, PDO::PARAM_STR);
             } 
             $queryCount->execute();
-           
+            
             $return['dataCount']=$queryCount->rowCount();
             
         }
@@ -1176,44 +1187,69 @@ if($ajax=="true" && $build2==''){
     }
     else if($build=="EditProduct")
     {
+
+
         $return = [
             'response' => '',
             'responseMessage' => '',
         ];
-
-        $p_id = filter($_POST['p_id']);
-        $p_name = filter($_POST['p_name']);
-        $p_category = filter($_POST['p_category']);
-        $p_price = filter($_POST['p_price']);
-        $p_discount = filter($_POST['p_discount']);
-        $p_percentage = filter($_POST['p_percentage']);
-        if(isset($_POST['p_active']))
+        $AllLanguage=AllLanguage();
+        foreach ($AllLanguage as  $value) 
         {
-           $p_active=1;
+            $lang=$value['lang'];
+            $p_id=$_POST['p_id'];
+            $p_name = filter($_POST["p_name_$lang"]);
+            $p_category = !empty($_POST["p_category_id_$lang"]) ? filter($_POST["p_category_id_$lang"]) : 0;
+            $p_category_default = !empty($_POST["p_category_id_$lang"]) ? filter($_POST["p_category_id_$lang"]) : 0;
+            $p_price = !empty($_POST["p_price_$lang"]) ? filter($_POST["p_price_$lang"]) : 0;
+            $p_discount = filter($_POST["p_discount_$lang"]);
+            $p_discount = !empty($_POST["p_discount_$lang"]) ? filter($_POST["p_discount_$lang"]) : 0;
+            $p_active = !empty($_POST["p_active_$lang"]) ? filter($_POST["p_active_$lang"]) : 0;
+
+            //echo 'Name-'.$p_name.'-Category:'.$p_category.'-Price: '.$p_price.'-Discount:'.$p_discount.'-ACtive:'.$p_active;
+
+            /* 
+            $p_name="Ürün Deneme";
+            $p_category=1;
+            $p_price=123;
+            $p_discount=12;
+            $p_active=1;
+            $p_id=5;
+             */
+            //$p_active= ($p_active=='on') ? '1' : 0;
+
+            if(isset($_POST['p_active']))
+            {
+               $p_active=1;
+            }
+            else
+            {
+               
+                $p_active=0;
+            }
+
+            $tableName='product_'.$lang;
+            $query = $db->prepare("UPDATE $tableName SET p_name=:p_name,p_category=:p_category, p_price=:p_price, p_discount=:p_discount, p_percentage=:p_percentage, p_active=:p_active WHERE p_id=:p_id");
+
+            $query->bindParam(':p_id', $p_id, PDO::PARAM_STR);
+            $query->bindParam(':p_name', $p_name, PDO::PARAM_STR);
+            $query->bindParam(':p_category', $p_category, PDO::PARAM_STR);
+            $query->bindParam(':p_price', $p_price, PDO::PARAM_STR);
+            $query->bindParam(':p_discount', $p_discount, PDO::PARAM_STR);
+            $query->bindParam(':p_percentage', $p_percentage, PDO::PARAM_STR);
+            $query->bindParam(':p_active', $p_active, PDO::PARAM_STR);
+
+
+            $query->execute();
+
+
         }
-        else
-        {
-           
-            $p_active=0;
-        }
 
-        $query = $db->prepare("UPDATE product SET p_name=:p_name,p_category=:p_category, p_price=:p_price, p_discount=:p_discount, p_percentage=:p_percentage, p_active=:p_active WHERE p_id=:p_id");
-        $query->bindParam(':p_id', $p_id, PDO::PARAM_STR);
-        $query->bindParam(':p_name', $p_name, PDO::PARAM_STR);
-        $query->bindParam(':p_category', $p_category, PDO::PARAM_STR);
-        $query->bindParam(':p_price', $p_price, PDO::PARAM_STR);
-        $query->bindParam(':p_discount', $p_discount, PDO::PARAM_STR);
-        $query->bindParam(':p_percentage', $p_percentage, PDO::PARAM_STR);
-        $query->bindParam(':p_active', $p_active, PDO::PARAM_STR);
+        ($query->rowCount()>0) ? $responseMessage[] = "UPDATE_1" : $responseMessage[] = "UPDATE_ERROR";
 
-
-        $query->execute();
-        ($query->rowCount() > 0) ? $responseMessage[] = "UPDATE_1" : $responseMessage[] = "F_UPDATE_1";
 
         $return['responseMessage'] .= json_encode($responseMessage);
         echo json_encode($return);
-
-
     }
 
 

@@ -47,7 +47,7 @@ function isEmpty(array $emptyListArray,string $controlLanguage='')
     if($controlLanguage!='') $controlLanguage='_'.$controlLanguage;
     for ($i=0; $i <count($emptyListArray); $i++) 
     { 
-        if(filter($_POST[$emptyListArray[$i].$controlLanguage])=='') $return=true;
+        if(filter($_POST[$emptyListArray[$i]])=='') $return=true;
     }
     return $return;
 }
